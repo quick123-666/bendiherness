@@ -1,0 +1,111 @@
+{
+  "_comment": "鏈枃浠跺師鏈槸 Claude Code 鐨?settings.json銆傛敼閫犱负 SOLO Design锛堝伐浣滃尯鍔╂墜锛夊彲璇荤殑瑙勫垯娓呭崟銆備慨鏀?閲嶅啓瑙勫垯鍓嶈鍏?Read 鏈枃浠躲€?,
+  "harness_level": "Level 2 - 鍥㈤槦 Harness锛圫olo 鍗曞姪鎵嬫ā鎷燂級",
+  "assistant": "SOLO Design",
+  "permissions": {
+    "allow": [
+      {
+        "action": "Read",
+        "scope": "e:\\bendiherness 涓嬬殑鎵€鏈夐潪涓婁紶鏂囦欢"
+      },
+      {
+        "action": "Write/Edit",
+        "scope": "e:\\bendiherness 涓嬬殑 *.md / *.json / *.html / *.css / *.txt锛堥櫎涓嬫潯 deny 澶栵級"
+      },
+      {
+        "action": "Skill 璋冪敤",
+        "scope": ["solo-design", "design-library-creator", "frontend-design", "web-design-engineer"]
+      }
+    ],
+    "deny": [
+      {
+        "action": "浠讳綍淇敼",
+        "scope": ["harness-engineering-瀹屾暣鏁欑▼.md", ".uploads/*"],
+        "reason": "鐢ㄦ埛瀛︿範璧勪骇涓庣郴缁熺骇鍙鏂囦欢"
+      },
+      {
+        "action": "鎵ц鍛戒护",
+        "scope": [
+          "sudo *",
+          "rm -rf *",
+          "rm -fr *",
+          "git push --force *",
+          "git reset --hard *",
+          "del /s /q *",
+          "npm publish *"
+        ],
+        "reason": "涓嶅彲閫嗘垨楂樺嵄鎿嶄綔锛堝惈 Level 2 鏂板 npm publish 闃茶鍙戯級"
+    },
+    {
+      "_note": "Level 2 + 鐢ㄦ埛鎺堟潈锛氫互涓?Bash 灞?deny 涓嶄綔鐢ㄤ簬 .claude/mcp.json 閰嶇疆鐨?MCP 鏈嶅姟鍣ㄣ€侻CP 璧扮嫭绔嬮€氶亾锛屽叾鑳藉姏 = GitHub PAT/APP OAuth scope銆?,
+      "action": "MCP 鏈嶅姟鍣ㄨ皟鐢?,
+      "scope": ["github MCP", "鍏朵粬 mcpServers.*"],
+      "bypass_local_deny": true,
+      "reason": "鐢ㄦ埛鏄庣‘鎺堟潈 MCP 璧扮嫭绔嬮€氶亾锛堣瑙?.claude/mcp.json _scope_intent锛?
+    },
+      {
+        "action": "鍒犻櫎鏂囦欢",
+        "scope": "浠绘剰鏂囦欢",
+        "reason": "鍒犻櫎鍓嶅繀椤诲厛 Read 骞跺悜鐢ㄦ埛纭"
+      },
+      {
+        "action": "鍐欏叆鏁忔劅鏂囦欢",
+        "scope": ["*.env", "*.env.*", "*.key", "*.pem", "secrets/*"],
+        "reason": "Level 2 鍥㈤槦鍏变韩锛氱姝㈠姪鎵嬪啓瀵嗛挜涓?.env"
+      }
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "_note": "妯℃嫙 sandbox 瀛楁锛汼OLO Design 鍦?Windows 宸ヤ綔鍖轰腑浠?deny 鍒楄〃鏂瑰紡瀹炵幇",
+    "fsWrite": {
+      "deny": [".env", ".env.*", "*.key", "*.pem", "secrets/"]
+    },
+    "network": {
+      "allowedDomains": [
+        "*.github.com",
+        "registry.npmjs.org",
+        "api.anthropic.com"
+      ],
+      "_note": "SOLO Design 褰撳墠涓嶇洿鎺ュ彂璧风綉缁滆姹傦紱璇ュ瓧娈典负灏嗘潵 MCP 璋冪敤鏃剁殑鐧藉悕鍗曞熀绾?
+    }
+  },
+  "defaultMode": "default",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write/Edit *.md",
+        "behavior": "鍐欏叆鍓嶅厛鍚戠敤鎴锋墦鍗扮洰鏍囨枃浠惰矾寰勶紙commentary 閫氶亾锛?
+      },
+      {
+        "matcher": "Write/Edit *.json",
+        "behavior": "鍐欏叆鍓嶅厛 Read 鐜板瓨鍐呭锛堝瀛樺湪锛夛紝闃叉瑕嗙洊 Hooks/瑙勫垯锛涘啀鍚戠敤鎴锋墦鍗扮洰鏍囪矾寰?
+      },
+      {
+        "matcher": "Write/Edit *.env / *.key / *.pem",
+        "behavior": "鎷︽埅骞舵嫆缁濓紙鍛戒腑 sandbox.fsWrite.deny锛?
+      },
+      {
+        "matcher": "Bash 鍒犻櫎绫诲懡浠?,
+        "behavior": "鎷︽埅骞惰闂敤鎴风‘璁わ紱楂樺嵄鍛戒护鐩存帴鎷掔粷"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash(npm *)",
+        "behavior": "鑻ラ」鐩棤 package.json 鍒欒烦杩囷紱鏈夊垯鎻愮ず鏄惁璺?lint锛堜笉鑷姩璺戯級"
+      },
+      {
+        "matcher": "Write/Edit 浠绘剰鏂囦欢",
+        "behavior": "鍐欏叆鍚庣敤 Read 鏍￠獙鍓?50 琛岋紝纭鏂囦欢鏈鐮村潖"
+      }
+    ]
+  },
+  "session_start_checklist": [
+    "1. Read CLAUDE.md",
+    "2. Read .claude/settings.json",
+    "3. 鎵弿宸ヤ綔鍖猴紝纭鏃犳剰澶栨柊澧?鍒犻櫎",
+    "4. 濡傛湁璁捐/娴嬭瘯浠诲姟锛屾寜 .claude/agents/ 涓殑瑙掕壊绾︽潫宸ヤ綔",
+    "5. 鍚戠敤鎴风‘璁ゆ湰杞伐浣滆寖鍥?
+  ]
+}
