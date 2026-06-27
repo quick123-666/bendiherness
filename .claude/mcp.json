@@ -1,0 +1,26 @@
+{
+  "_comment": "MCP 鏈嶅姟鍣ㄩ厤缃€侴itHub MCP 璧扮嫭绔嬮€氶亾锛屼笉琚?settings.json 鐨勬湰鍦?deny 鎷︽埅锛涘叾瀹為檯鑳藉姏鐢?GitHub PAT/APP 鐨?scope 鍐冲畾銆侾ostgres MCP 鏆傛湭鍚敤銆?,
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}",
+        "GITHUB_DEFAULT_OWNER": "${GITHUB_DEFAULT_OWNER}",
+        "GITHUB_DEFAULT_REPO": "${GITHUB_DEFAULT_REPO}"
+      },
+      "_scope_intent": "鐢ㄦ埛鎺堟潈锛氬彧璇?+ Issue/PR 璇勮 + push/merge/鍚堝苟 PR 鍏ㄥ紑",
+      "_scope_actual": "鍙楅檺浜?GitHub PAT/APP 鐨?OAuth scope锛屽缓璁渶灏忓寲涓?repo: contents(read+write) + issues(read+write) + pull_requests(read+write)銆傚闇€鍚堝苟 PR锛岃繕闇€棰濆 workflow 鎴?admin 鑼冨洿銆?,
+      "_safety_note": "PAT 璇风敤 fine-grained token锛涙渶灏忔潈闄?+ 鐭湡杩囨湡 + 浠呮巿鏉冨繀瑕佷粨搴撱€倀oken 蹇呴』閫氳繃鐜鍙橀噺 GITHUB_TOKEN 娉ㄥ叆锛岀粷涓嶅啓鍏ユ湰鏂囦欢鎴?.env銆?
+    },
+    "postgres": {
+      "_enabled": false,
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      },
+      "_note": "鐢ㄦ埛鏆傛湭鍚敤銆傚闇€寮€鍚紝璇锋彁渚涘彧璇?connection string锛堥€氳繃鐜鍙橀噺 DATABASE_URL 娉ㄥ叆锛屼笉瑕佸啓鍏?.env锛夈€?
+    }
+  }
+}
