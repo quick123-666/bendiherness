@@ -1,0 +1,28 @@
+# Environment / secrets
+.env
+.env.*
+*.env
+*.key
+*.pem
+secrets/
+
+# Local MCP overrides (濡傛灉鏈潵浣犳兂鐢?.claude/mcp.local.json 瑕嗙洊 team 閰嶇疆)
+.claude/mcp.local.json
+
+# Claude Code / Agent runtime
+.claude/.cache/
+.claude/sessions/
+.claude/logs/
+
+# Node / build artifacts
+node_modules/
+dist/
+build/
+*.log
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
